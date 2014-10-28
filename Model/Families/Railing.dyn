@@ -1,0 +1,47 @@
+<Workspace Version="0.7.2.2921" X="-252.226952382203" Y="-1107.34545279934" zoom="0.592367864000901" Description="" Category="" Name="Home">
+  <Elements>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="8de5937b-08f9-479c-9acd-a76832739cd9" nickname="Railing-Length-Front" x="186.102576571734" y="807.655059479553" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>10.973</System.Double>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="2ba7fe92-56ac-4ee5-b802-280bc5435257" nickname="Railing-Length-Side" x="186.102576571734" y="1000.96578409029" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>3.048</System.Double>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="c7d2ba98-f96d-473e-8c85-29a1323af17d" nickname="Railing-Height" x="186.102576571734" y="1290.9318710064" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>1.067</System.Double>
+      <Range min="0" max="2" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="3bdcb5b0-29ab-42ff-841e-252cbab2ed6e" nickname="Railing-Panel-Thickness" x="186.102576571734" y="1392.2139164953" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.01</System.Double>
+      <Range min="0" max="1" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="5e954ba1-47c3-4faa-ad54-17ad9fd7e343" nickname="Panels-Count-Front" x="186.102576571734" y="904.310421784923" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>9</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
+    <Dynamo.Nodes.IntegerSlider type="Dynamo.Nodes.IntegerSlider" guid="81c2a0bb-b512-475a-b065-41f9ab50e19e" nickname="Panels-Count-Side" x="187.644804299576" y="1096.07891866782" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Int32>3</System.Int32>
+      <Range min="0" max="100" />
+    </Dynamo.Nodes.IntegerSlider>
+    <Dynamo.Nodes.DoubleSlider type="Dynamo.Nodes.DoubleSlider" guid="95177d0e-b59f-4e8a-9c8f-c4b03eaaca26" nickname="Panels-Gap" x="187.644804299576" y="1194.27650870103" isVisible="true" isUpstreamVisible="true" lacing="Disabled">
+      <System.Double>0.1</System.Double>
+      <Range min="0" max="0.5" />
+    </Dynamo.Nodes.DoubleSlider>
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" nickname="Panels" x="491.103720398629" y="811.32999411466" isVisible="false" isUpstreamVisible="true" lacing="Disabled" CodeText="//Logo&#xA;Logo1=PolyCurve.ByJoinedCurves({Line.ByStartPointEndPoint(Point.ByCoordinates(0,0,0),Point.ByCoordinates(0,0,1.25)),Line.ByStartPointEndPoint(Point.ByCoordinates(0,0,0),Point.ByCoordinates(1,0,0)),Line.ByStartPointEndPoint(Point.ByCoordinates(1,0,0),Point.ByCoordinates(1,0,-0.25)),Arc.ByCenterPointStartPointEndPoint(Point.ByCoordinates(0,0,-0.25),Point.ByCoordinates(1,0,-0.25),Point.ByCoordinates(0,0,-1.25)),Line.ByStartPointEndPoint(Point.ByCoordinates(0,0,-1.25),Point.ByCoordinates(0,0,-0.25)),Arc.ByCenterPointStartPointEndPoint(Point.ByCoordinates(0,0,0.25),Point.ByCoordinates(0,0,1.25),Point.ByCoordinates(1,0,0.25))});&#xA;Logo1=PolyCurve.ByThickeningCurve(Logo1,0.2,Vector.YAxis());&#xA;Logo1=Surface.ByPatch(Logo1);&#xA;Logo1=Logo1.Scale(0.02);&#xA;Logo1=Logo1.Thicken(0.1,1);&#xA;Logo2=Logo1.Transform(CoordinateSystem.Identity(),CoordinateSystem.ByOrigin(Point.ByCylindricalCoordinates(CoordinateSystem.ByPlane(Plane.XZ()),(0..360..#14)&lt;1&gt;,0,{0.125,0.2,0.3,0.5,0.8}&lt;2&gt;)));&#xA;Logof=Flatten({Logo1,Logo2});&#xA;Logols=Logof.Rotate(Plane.XY(),-90);&#xA;Logors=Logof.Rotate(Plane.XY(),90);&#xA;&#xA;//Railing Front Panels&#xA;PanelWidthFront=(RailingLengthFront-(PanelsGap*PanelsCountFront))/PanelsCountFront;&#xA;PanelX=(0+PanelsGap)..(RailingLengthFront-PanelWidthFront-PanelsGap)..#PanelsCountFront;&#xA;PanelPointsX=Point.ByCoordinates(PanelX,0,0);&#xA;PanelLine=Line.ByStartPointDirectionLength(PanelPointsX,Vector.XAxis(),PanelWidthFront);&#xA;PanelSurface=PanelLine.Extrude(Vector.ZAxis(),RailingHeight);&#xA;PanelSolid=PanelSurface.Thicken(RailingPanelThickness,true);&#xA;PanelCentroid=PanelSolid.Centroid();&#xA;//Randomization&#xA;rfp1=(Math.RandomList(PanelsCountFront)*PanelWidthFront/3)*Math.Random(-2,1.5);&#xA;rfp2=(Math.RandomList(PanelsCountFront)*RailingHeight/3)*Math.Random(-2,2);&#xA;afp=(PanelCentroid.X)+rfp1;&#xA;bfp=(PanelCentroid.Z)+rfp2;&#xA;PanelCen=Point.ByCoordinates(afp&lt;1&gt;,0,bfp&lt;1&gt;);&#xA;&#xA;Clusterfs=Logof&lt;1&gt;.Transform(CoordinateSystem.Identity(),CoordinateSystem.ByOrigin(PanelCen)&lt;2&gt;);&#xA;&#xA;Panelfs=(Solid.ByUnion(PanelSolid)).Difference(Solid.ByUnion(Flatten(Clusterfs)));&#xA;&#xA;//Railing Left Side Panels;&#xA;PanelWidthSide=(RailingLengthSide-(PanelsGap*PanelsCountSide))/PanelsCountSide;&#xA;PanelY=(0+PanelsGap)..(RailingLengthSide-PanelWidthSide-PanelsGap)..#PanelsCountSide;&#xA;PanelPointsY1=Point.ByCoordinates(0,PanelY,0);&#xA;PanelLine1=Line.ByStartPointDirectionLength(PanelPointsY1,Vector.YAxis(),PanelWidthSide);&#xA;PanelSurface1=PanelLine1.Extrude(Vector.ZAxis(),RailingHeight);&#xA;PanelSolid1=PanelSurface1.Thicken(RailingPanelThickness,true);&#xA;PanelCentroid1=PanelSolid1.Centroid();&#xA;//Randomization&#xA;rlp1=(Math.RandomList(PanelsCountSide)*PanelWidthSide/3)*Math.Random(-2,2);&#xA;rlp2=(Math.RandomList(PanelsCountSide)*RailingHeight/3)*Math.Random(-2,2);&#xA;alp=(PanelCentroid1.Y)+rlp1;&#xA;blp=(PanelCentroid1.Z)+rlp2;&#xA;PanelCen1=Point.ByCoordinates(0,alp&lt;1&gt;,blp&lt;1&gt;);&#xA;&#xA;Clusterls=Logols&lt;1&gt;.Transform(CoordinateSystem.Identity(),CoordinateSystem.ByOrigin(PanelCen1)&lt;2&gt;);&#xA;&#xA;Panells=(Solid.ByUnion(PanelSolid1)).Difference(Solid.ByUnion(Flatten(Clusterls)));&#xA;&#xA;&#xA;//Railing Right Side Panels;&#xA;PanelPointsY2=Point.ByCoordinates(RailingLengthFront,PanelY,0);&#xA;PanelLine2=Line.ByStartPointDirectionLength(PanelPointsY2,Vector.YAxis(),PanelWidthSide);&#xA;PanelSurface2=PanelLine2.Extrude(Vector.ZAxis(),RailingHeight);&#xA;PanelSolid2=PanelSurface2.Thicken(RailingPanelThickness,true);&#xA;PanelCentroid2=PanelSolid2.Centroid();&#xA;//Randomization&#xA;rrp1=(Math.RandomList(PanelsCountSide)*PanelWidthSide/3)*Math.Random(-2,2);&#xA;rrp2=(Math.RandomList(PanelsCountSide)*RailingHeight/3)*Math.Random(-2,2);&#xA;arp=(PanelCentroid2.Y)+rrp1;&#xA;brp=(PanelCentroid2.Z)+rrp2;&#xA;PanelCen2=Point.ByCoordinates(RailingLengthFront,arp&lt;1&gt;,brp&lt;1&gt;);&#xA;&#xA;Clusterrs=Logors&lt;1&gt;.Transform(CoordinateSystem.Identity(),CoordinateSystem.ByOrigin(PanelCen2)&lt;2&gt;);&#xA;&#xA;Panelrs=(Solid.ByUnion(PanelSolid2)).Difference(Solid.ByUnion(Flatten(Clusterrs)));&#xA;&#xA;&#xA;//Railings Combined&#xA;Railing=Flatten({Panells,Panelfs,Panelrs});" ShouldFocus="false" />
+    <Dynamo.Nodes.CodeBlockNodeModel type="Dynamo.Nodes.CodeBlockNodeModel" guid="e9a76da9-d79a-4827-a6fd-c8ca378ae927" nickname="Code Block" x="1241.22214440199" y="2618.60137369268" isVisible="true" isUpstreamVisible="true" lacing="Disabled" CodeText="Railing;" ShouldFocus="false" />
+    <Dynamo.Nodes.DSFunction type="Dynamo.Nodes.DSFunction" guid="c53c79b2-ba55-4399-9eed-e598f5d54680" nickname="ImportInstance.ByGeometries" x="1448.15286786347" y="2616.08899105978" isVisible="true" isUpstreamVisible="true" lacing="Shortest" assembly="RevitNodes.dll" function="Revit.Elements.ImportInstance.ByGeometries@Autodesk.DesignScript.Geometry.Geometry[]" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Models.ConnectorModel start="8de5937b-08f9-479c-9acd-a76832739cd9" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="2ba7fe92-56ac-4ee5-b802-280bc5435257" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="5" portType="0" />
+    <Dynamo.Models.ConnectorModel start="c7d2ba98-f96d-473e-8c85-29a1323af17d" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="3" portType="0" />
+    <Dynamo.Models.ConnectorModel start="3bdcb5b0-29ab-42ff-841e-252cbab2ed6e" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="4" portType="0" />
+    <Dynamo.Models.ConnectorModel start="5e954ba1-47c3-4faa-ad54-17ad9fd7e343" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="2" portType="0" />
+    <Dynamo.Models.ConnectorModel start="81c2a0bb-b512-475a-b065-41f9ab50e19e" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="6" portType="0" />
+    <Dynamo.Models.ConnectorModel start="95177d0e-b59f-4e8a-9c8f-c4b03eaaca26" start_index="0" end="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" end_index="1" portType="0" />
+    <Dynamo.Models.ConnectorModel start="ca4e7b2d-1590-4f3a-b511-df9bbf9a2feb" start_index="45" end="e9a76da9-d79a-4827-a6fd-c8ca378ae927" end_index="0" portType="0" />
+    <Dynamo.Models.ConnectorModel start="e9a76da9-d79a-4827-a6fd-c8ca378ae927" start_index="0" end="c53c79b2-ba55-4399-9eed-e598f5d54680" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+</Workspace>
